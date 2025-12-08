@@ -86,24 +86,36 @@ public class HomeController {
     }
 
     public void loadDashboardData() {
-        // 1. KPIs
+        // 1. KPI Cards (The Big Numbers)
         lblTotalVehicles.setText(String.valueOf(analyticsDAO.getTotalVehicles()));
         lblMaintCount.setText(String.valueOf(analyticsDAO.getMaintenanceCount()));
+
+        // Format Currency nicely ($1,200.50)
         lblFuelCost.setText(String.format("$%.2f", analyticsDAO.getTotalFuelCost()));
 
-        // 2. Pie Chart
+        // 2. Pie Chart (Fleet Status)
         statusChart.getData().clear();
-        for (Map.Entry<String, Integer> entry : analyticsDAO.getVehicleStatusData().entrySet()) {
+        Map<String, Integer> statusData = analyticsDAO.getVehicleStatusData();
+        for (Map.Entry<String, Integer> entry : statusData.entrySet()) {
             statusChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
         }
 
-        // 3. Bar Chart
+        // 3. Bar Chart (Cost by Category) <--- THIS IS WHAT YOU NEED
         costChart.getData().clear();
+
+        // Create a data series
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Expenses");
-        for (Map.Entry<String, Double> entry : analyticsDAO.getCostByCategoryData().entrySet()) {
+        series.setName("Expenses by Category");
+
+        // Fetch data from Database
+        Map<String, Double> costData = analyticsDAO.getCostByCategoryData();
+
+        // Loop through (Fuel, Maintenance, Tires...) and add bars
+        for (Map.Entry<String, Double> entry : costData.entrySet()) {
             series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
         }
+
+        // Add the series to the chart
         costChart.getData().add(series);
     }
 
@@ -164,6 +176,7 @@ public class HomeController {
     @FXML
     public void onRefreshClick() {
         loadData();
+        loadDashboardData();
     }
 
     @FXML
@@ -191,9 +204,8 @@ public class HomeController {
 
     @FXML
     public void onAddVehicleClick() {
-        // ... (Keep your existing code here) ...
-        // Copy the code from previous step
         openWindow("/fxml/add-vehicle.fxml", "Add Vehicle");
+        loadDashboardData();
     }
 
     @FXML
@@ -205,6 +217,7 @@ public class HomeController {
     @FXML
     public void onAddTripClick() {
         openWindow("/fxml/dispatch-trip.fxml", "Dispatch New Trip");
+        loadDashboardData();
     }
 
     @FXML
@@ -224,6 +237,7 @@ public class HomeController {
         if (com.fleetapp.util.AlertHelper.showConfirmation("Finish Trip", "Mark this trip as completed and release vehicle?")) {
             tripDAO.completeTrip(selected);
             loadData();
+            loadDashboardData();
         }
     }
 
@@ -258,6 +272,7 @@ public class HomeController {
 
             // 5. Refresh Table (Status should be MAINTENANCE now)
             loadData();
+            loadDashboardData();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -297,6 +312,7 @@ public class HomeController {
         if (selected.getStatus() == com.fleetapp.model.VehicleStatus.MAINTENANCE) {
             vehicleDAO.finishMaintenance(selected.getId());
             loadData();
+            loadDashboardData();
         }
     }
 
