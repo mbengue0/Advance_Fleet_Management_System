@@ -10,20 +10,25 @@
     <Label fx:id="lblVehicleInfo" text="Vehicle: ..." style="-fx-text-fill: gray;"/>
 
     <GridPane vgap="10" hgap="10">
+        <!-- ROW 0: Category -->
         <Label text="Category:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="comboCategory" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="comboCategory" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
+        <!-- ROW 1: Description -->
         <Label text="Notes/Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtDescription" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <TextField fx:id="txtDescription" promptText="e.g. Broken tail light" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="Service Provider:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtProvider" promptText="e.g. Mike's Garage" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <!-- ROW 2: Provider -->
+        <Label text="Service Provider:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtProvider" promptText="e.g. Mike's Garage" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-        <Label text="Cost ($):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtCost" promptText="0.00" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <!-- ROW 3: Cost -->
+        <Label text="Cost ($):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtCost" promptText="0.00" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-        <Label text="Date:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <DatePicker fx:id="dateService" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <!-- ROW 4: Date -->
+        <Label text="Date:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dateService" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
