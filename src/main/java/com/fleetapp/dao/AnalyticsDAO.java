@@ -7,14 +7,17 @@ import java.util.Map;
 
 public class AnalyticsDAO {
 
+    // 1. KPI: Total Vehicles
     public int getTotalVehicles() {
-        return getCount("SELECT COUNT(*) FROM vehicles");
+        return getSingleInt("SELECT COUNT(*) FROM vehicles");
     }
 
+    // 2. KPI: Active Maintenance
     public int getMaintenanceCount() {
-        return getCount("SELECT COUNT(*) FROM vehicles WHERE status = 'MAINTENANCE'");
+        return getSingleInt("SELECT COUNT(*) FROM vehicles WHERE status = 'MAINTENANCE'");
     }
 
+    // 3. KPI: Total Fuel Cost (Specific Category)
     public double getTotalFuelCost() {
         String sql = "SELECT SUM(cost) FROM maintenance WHERE category = 'Fuel'";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -25,6 +28,7 @@ public class AnalyticsDAO {
         return 0.0;
     }
 
+    // 4. CHART DATA: Status Breakdown (Pie Chart)
     public Map<String, Integer> getVehicleStatusData() {
         Map<String, Integer> data = new HashMap<>();
         String sql = "SELECT status, COUNT(*) FROM vehicles GROUP BY status";
@@ -38,15 +42,7 @@ public class AnalyticsDAO {
         return data;
     }
 
-    private int getCount(String sql) {
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) return rs.getInt(1);
-        } catch (SQLException e) { e.printStackTrace(); }
-        return 0;
-    }
-
+    // 5. CHART DATA: Cost by Category (Bar Chart)
     public Map<String, Double> getCostByCategoryData() {
         Map<String, Double> data = new HashMap<>();
         String sql = "SELECT category, SUM(cost) FROM maintenance GROUP BY category";
@@ -54,14 +50,21 @@ public class AnalyticsDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                // Handle null categories by calling them "Uncategorized"
                 String cat = rs.getString(1);
-                if (cat == null || cat.isEmpty()) cat = "Uncategorized";
-
+                if (cat == null) cat = "Uncategorized";
                 data.put(cat, rs.getDouble(2));
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return data;
     }
 
+    // Helper
+    private int getSingleInt(String sql) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) { e.printStackTrace(); }
+        return 0;
+    }
 }

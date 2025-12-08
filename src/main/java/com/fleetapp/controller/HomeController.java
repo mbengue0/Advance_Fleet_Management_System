@@ -61,6 +61,11 @@ public class HomeController {
     @FXML private Tab adminTab; // Link to the FXML Tab
     @FXML private TabPane mainTabPane; // Link to the main TabPane container
 
+    @FXML private Label lblTotalVehicles, lblMaintCount, lblFuelCost;
+    @FXML private PieChart statusChart;
+    @FXML private BarChart<String, Number> costChart;
+
+    private AnalyticsDAO analyticsDAO = new AnalyticsDAO();
     private MaintenanceDAO maintenanceDAO = new MaintenanceDAO(); // Add this DAO
     private TripDAO tripDAO = new TripDAO();
     private VehicleDAO vehicleDAO = new VehicleDAO();
@@ -75,8 +80,31 @@ public class HomeController {
         setupTripColumns();
         setupMaintenanceColumns();
         checkSecurity();
+        loadDashboardData();
 
         loadData();
+    }
+
+    public void loadDashboardData() {
+        // 1. KPIs
+        lblTotalVehicles.setText(String.valueOf(analyticsDAO.getTotalVehicles()));
+        lblMaintCount.setText(String.valueOf(analyticsDAO.getMaintenanceCount()));
+        lblFuelCost.setText(String.format("$%.2f", analyticsDAO.getTotalFuelCost()));
+
+        // 2. Pie Chart
+        statusChart.getData().clear();
+        for (Map.Entry<String, Integer> entry : analyticsDAO.getVehicleStatusData().entrySet()) {
+            statusChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        }
+
+        // 3. Bar Chart
+        costChart.getData().clear();
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Expenses");
+        for (Map.Entry<String, Double> entry : analyticsDAO.getCostByCategoryData().entrySet()) {
+            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+        }
+        costChart.getData().add(series);
     }
 
     private void setupVehicleColumns() {

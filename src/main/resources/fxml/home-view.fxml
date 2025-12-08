@@ -22,6 +22,53 @@
     <center>
         <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
 
+            <!-- TAB 1: DASHBOARD -->
+            <Tab text="Dashboard">
+                <ScrollPane fitToWidth="true" style="-fx-background-color: #f4f6f9;">
+                    <VBox spacing="20" style="-fx-padding: 20; -fx-background-color: #f4f6f9;">
+
+                        <Label text="Fleet Overview" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+                        <!-- KPI CARDS ROW -->
+                        <HBox spacing="20">
+                            <!-- Card 1 -->
+                            <VBox style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+                                <Label text="Total Vehicles" style="-fx-text-fill: gray; -fx-font-size: 14px;"/>
+                                <Label fx:id="lblTotalVehicles" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                            </VBox>
+                            <!-- Card 2 -->
+                            <VBox style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+                                <Label text="Active Maintenance" style="-fx-text-fill: gray; -fx-font-size: 14px;"/>
+                                <Label fx:id="lblMaintCount" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #c0392b;"/>
+                            </VBox>
+                            <!-- Card 3 -->
+                            <VBox style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+                                <Label text="Total Fuel Spend" style="-fx-text-fill: gray; -fx-font-size: 14px;"/>
+                                <Label fx:id="lblFuelCost" text="0.00" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                            </VBox>
+                        </HBox>
+
+                        <!-- CHARTS ROW -->
+                        <HBox spacing="20" prefHeight="400">
+                            <!-- Pie Chart -->
+                            <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+                                <Label text="Fleet Status" style="-fx-font-weight: bold; -fx-padding: 10;"/>
+                                <PieChart fx:id="statusChart"/>
+                            </VBox>
+                            <!-- Bar Chart -->
+                            <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+                                <Label text="Cost Analysis" style="-fx-font-weight: bold; -fx-padding: 10;"/>
+                                <BarChart fx:id="costChart">
+                                    <xAxis><CategoryAxis label="Category"/></xAxis>
+                                    <yAxis><NumberAxis label="Cost ($)"/></yAxis>
+                                </BarChart>
+                            </VBox>
+                        </HBox>
+
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+
             <!-- TAB 2: VEHICLES -->
             <Tab text="Vehicles">
                 <VBox spacing="10" style="-fx-padding: 20;">
