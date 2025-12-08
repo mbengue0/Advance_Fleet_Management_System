@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<!-- NO CSS LINKS HERE TO PREVENT CRASHING -->
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.fleetapp.controller.HomeController"
+            prefHeight="600.0" prefWidth="1000.0">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <Label text="Fleet Management System" textFill="white" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Logout" onAction="#onLogoutClick" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+
+            <!-- TAB 2: VEHICLES -->
+            <Tab text="Vehicles">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <TableView fx:id="vehicleTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                            <TableColumn fx:id="colType" text="Type" prefWidth="80"/>
+                            <TableColumn fx:id="colPlate" text="License Plate" prefWidth="100"/>
+                            <TableColumn fx:id="colBrand" text="Brand" prefWidth="100"/>
+                            <TableColumn fx:id="colModel" text="Model" prefWidth="100"/>
+                            <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+                            <TableColumn fx:id="colMileage" text="Mileage" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                    <HBox spacing="10">
+                        <Button text="Add Vehicle" onAction="#onAddVehicleClick" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                        <Button text="Service (Maintenance)" onAction="#onServiceClick" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+                        <Button text="Finish Service" onAction="#onFinishServiceClick" style="-fx-background-color: #7f8c8d; -fx-text-fill: white;"/>
+                        <Button text="Refresh" onAction="#onRefreshClick"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 3: DRIVERS -->
+            <Tab text="Drivers">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <TableView fx:id="driverTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colDriverId" text="ID" prefWidth="50"/>
+                            <TableColumn fx:id="colDriverName" text="Name" prefWidth="150"/>
+                            <TableColumn fx:id="colLicense" text="License No." prefWidth="120"/>
+                            <TableColumn fx:id="colExpiry" text="Expiry Date" prefWidth="100"/>
+                            <TableColumn fx:id="colPhone" text="Phone" prefWidth="120"/>
+                            <TableColumn fx:id="colDriverStatus" text="Status" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                    <HBox spacing="10">
+                        <Button text="Register Driver" onAction="#onAddDriverClick" style="-fx-background-color: #2980b9; -fx-text-fill: white;"/>
+                        <Button text="Refresh" onAction="#onRefreshClick"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 4: TRIP HISTORY -->
+            <Tab text="Trip History">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <TableView fx:id="tripTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colTripId" text="Trip ID" prefWidth="60"/>
+                            <TableColumn fx:id="colTripVehicle" text="Vehicle ID" prefWidth="80"/>
+                            <TableColumn fx:id="colTripDriver" text="Driver ID" prefWidth="80"/>
+                            <TableColumn fx:id="colStart" text="Start Loc" prefWidth="120"/>
+                            <TableColumn fx:id="colEnd" text="End Loc" prefWidth="120"/>
+                            <TableColumn fx:id="colDep" text="Departure" prefWidth="150"/>
+                            <TableColumn fx:id="colTripStatus" text="Status" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                    <HBox spacing="10">
+                        <Button text="New Trip Dispatch" onAction="#onAddTripClick" style="-fx-background-color: #e67e22; -fx-text-fill: white;"/>
+                        <Button text="Mark Trip Completed" onAction="#onCompleteTripClick" style="-fx-background-color: #34495e; -fx-text-fill: white;"/>
+                        <Button text="Refresh" onAction="#onRefreshClick"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 5: SERVICE LOGS -->
+            <Tab text="Service Logs">
+                <VBox spacing="10" style="-fx-padding: 20;">
+                    <TableView fx:id="maintenanceTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colMaintId" text="ID" prefWidth="50"/>
+                            <TableColumn fx:id="colMaintVehicle" text="Vehicle ID" prefWidth="80"/>
+                            <TableColumn fx:id="colMaintDesc" text="Description" prefWidth="200"/>
+                            <TableColumn fx:id="colMaintDate" text="Date" prefWidth="100"/>
+                            <TableColumn fx:id="colMaintCost" text="Cost ($)" prefWidth="100"/>
+                            <TableColumn fx:id="colMaintProv" text="Provider" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                    <Button text="Refresh" onAction="#onRefreshClick"/>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 6: ADMIN USERS -->
+            <Tab fx:id="adminTab" text="Admin Users">
+                <HBox spacing="20" style="-fx-padding: 20;">
+                    <VBox spacing="10">
+                        <Label text="Current System Users" style="-fx-font-weight: bold;"/>
+                        <ListView fx:id="userList" prefHeight="400" prefWidth="200"/>
+                        <Button text="Delete Selected User" onAction="#onDeleteUserClick" maxWidth="Infinity" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+                    </VBox>
+                    <VBox spacing="10" style="-fx-background-color: #ecf0f1; -fx-padding: 20; -fx-background-radius: 5;">
+                        <Label text="Create New User" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <Label text="New Username:"/>
+                        <TextField fx:id="txtNewUser"/>
+                        <Label text="New Password:"/>
+                        <TextField fx:id="txtNewPass"/>
+                        <Button text="Create User" onAction="#onCreateUserClick" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    </VBox>
+                </HBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+</BorderPane>

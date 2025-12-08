@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.fleetapp.controller.MaintenanceController"
+      spacing="15" style="-fx-padding: 20;">
+
+    <Label text="Log Maintenance Service" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <Label fx:id="lblVehicleInfo" text="Vehicle: ..." style="-fx-text-fill: gray;"/>
+
+    <GridPane vgap="10" hgap="10">
+        <Label text="Category:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="comboCategory" prefWidth="200" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Notes/Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtDescription" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Service Provider:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtProvider" promptText="e.g. Mike's Garage" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Cost ($):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtCost" promptText="0.00" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Date:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dateService" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancel" onAction="#onCancel"/>
+        <Button text="Confirm Service" onAction="#onSave" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
+    </HBox>
+
+</VBox>

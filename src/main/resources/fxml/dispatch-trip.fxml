@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.fleetapp.controller.DispatchTripController"
+      spacing="15" style="-fx-padding: 20;">
+
+    <Label text="Dispatch New Trip" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <GridPane vgap="10" hgap="10">
+        <!-- 1. Select Vehicle -->
+        <Label text="Select Vehicle:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="comboVehicle" prefWidth="250" promptText="Choose Available Vehicle..."
+                  GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <!-- 2. Select Driver -->
+        <Label text="Select Driver:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="comboDriver" prefWidth="250" promptText="Choose Available Driver..."
+                  GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <!-- 3. Locations -->
+        <Label text="Start Location:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtStart" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="End Location:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtEnd" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancel" onAction="#onCancel"/>
+        <Button text="Dispatch Trip" onAction="#onDispatch" style="-fx-background-color: #e67e22; -fx-text-fill: white;"/>
+    </HBox>
+
+</VBox>

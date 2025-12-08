@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.fleetapp.controller.AddVehicleController"
+      stylesheets="@../css/styles.css"
+      spacing="10" style="-fx-padding: 20;">
+
+
+    <Label text="Register New Vehicle" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <GridPane vgap="10" hgap="10">
+        <!-- Common Fields -->
+        <Label text="Type:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="typeCombo" GridPane.rowIndex="0" GridPane.columnIndex="1" onAction="#onTypeChange">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Car"/>
+                    <String fx:value="Truck"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Label text="License Plate:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtPlate" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Brand:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtBrand" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Model:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtModel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Year:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtYear" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Mileage:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtMileage" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <!-- Special Fields (Hidden/Shown based on selection) -->
+        <Label fx:id="lblSpecial" text="Seat Count:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtSpecial" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+        <Label fx:id="lblFuel" text="Fuel Type:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtFuel" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancel" onAction="#onCancel"/>
+        <Button text="Save Vehicle" onAction="#onSave" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,54 @@
+/* General App Background */
+.root {
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* The Blue Top Bar */
+.top-bar {
+    -fx-background-color: #2c3e50;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+.button:hover {
+    -fx-background-color: #bdc3c7;
+}
+
+/* Specific Button Colors (Assign these via styleClass in SceneBuilder or FXML) */
+.btn-success { -fx-background-color: #27ae60; -fx-text-fill: white; }
+.btn-success:hover { -fx-background-color: #2ecc71; }
+
+.btn-danger { -fx-background-color: #c0392b; -fx-text-fill: white; }
+.btn-danger:hover { -fx-background-color: #e74c3c; }
+
+.btn-primary { -fx-background-color: #2980b9; -fx-text-fill: white; }
+.btn-primary:hover { -fx-background-color: #3498db; }
+
+/* Table Views */
+.table-view {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+}
+.table-view .column-header-background {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: transparent transparent #bdc3c7 transparent;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 20;
+    -fx-alignment: CENTER_LEFT;
+}
