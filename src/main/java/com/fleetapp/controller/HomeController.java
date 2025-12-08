@@ -250,8 +250,15 @@ public class HomeController {
             return;
         }
 
+        // CHECK 1: Is it on the road?
         if (selected.getStatus() == com.fleetapp.model.VehicleStatus.ON_TRIP) {
             com.fleetapp.util.AlertHelper.showError("Operation Failed", "Cannot service a vehicle that is currently ON A TRIP.\nPlease complete the trip first.");
+            return;
+        }
+
+        // CHECK 2: Is it already in the garage? (THE FIX)
+        if (selected.getStatus() == com.fleetapp.model.VehicleStatus.MAINTENANCE) {
+            com.fleetapp.util.AlertHelper.showError("Operation Failed", "This vehicle is ALREADY under maintenance.\nYou must finish the current service before starting a new one.");
             return;
         }
 

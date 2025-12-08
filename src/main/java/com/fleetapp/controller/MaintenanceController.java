@@ -37,9 +37,12 @@ public class MaintenanceController {
     @FXML
     public void onSave() {
         try {
-            // 1. Validate inputs
-            if (txtDescription.getText().isEmpty() || txtCost.getText().isEmpty()) {
-                showAlert("Please fill in Description and Cost.");
+            // 1. Validate inputs (Added txtProvider check)
+            if (txtDescription.getText().trim().isEmpty() ||
+                    txtCost.getText().trim().isEmpty() ||
+                    txtProvider.getText().trim().isEmpty()) { // <--- NEW CHECK
+
+                showAlert("Please fill in Description, Cost, and Provider.");
                 return;
             }
 
