@@ -111,3 +111,55 @@
 .icon-fill {
     -fx-fill: #bdc3c7;
 }
+
+/* --- MODERN TAB PANE --- */
+
+/* 1. The strip behind the tabs */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #2c3e50; /* Matches your Top Bar color */
+    -fx-effect: null; /* Remove default shadow */
+}
+
+/* 2. The Individual Tabs (Unselected) */
+.tab {
+    -fx-background-color: transparent; /* No background color */
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 12 25 12 25; /* Make them taller and wider */
+    -fx-border-color: transparent;
+}
+
+/* 3. The Text inside the Tabs */
+.tab .tab-label {
+    -fx-text-fill: #bdc3c7; /* Light Grey text (Dimmed) */
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+/* 4. Hover Effect (When mouse moves over) */
+.tab:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* Subtle lighten */
+    -fx-cursor: hand;
+}
+.tab:hover .tab-label {
+    -fx-text-fill: white; /* Brighten text on hover */
+}
+
+/* 5. Selected Tab (Active) */
+.tab:selected {
+    -fx-background-color: #f4f6f9; /* Matches the dashboard background grey */
+    -fx-background-radius: 5 5 0 0; /* Round top corners only */
+    -fx-background-insets: 0;
+}
+
+/* 6. Selected Tab Text */
+.tab:selected .tab-label {
+    -fx-text-fill: #2c3e50; /* Dark Blue text */
+}
+
+/* 7. Remove the ugly blue focus line */
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
