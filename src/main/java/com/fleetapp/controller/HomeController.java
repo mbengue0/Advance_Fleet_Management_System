@@ -29,6 +29,9 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.collections.ObservableList;
 
 public class HomeController {
 
@@ -37,6 +40,7 @@ public class HomeController {
     @FXML private TableColumn<Vehicle, Integer> colId;
     @FXML private TableColumn<Vehicle, String> colType, colPlate, colBrand, colModel, colStatus;
     @FXML private TableColumn<Vehicle, Double> colMileage;
+    @FXML private TextField txtSearchVehicle;
 
     // --- DRIVER TABLE (NEW) ---
     @FXML private TableView<Driver> driverTable;
@@ -127,6 +131,33 @@ public class HomeController {
         colMileage.setCellValueFactory(new PropertyValueFactory<>("mileage"));
         colType.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getType()));
         colStatus.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getStatus().toString()));
+
+        vehicleTable.setRowFactory(tv -> new javafx.scene.control.TableRow<Vehicle>() {
+            @Override
+            protected void updateItem(Vehicle item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Clear old styles
+                getStyleClass().removeAll("row-maintenance", "row-available", "row-ontrip");
+
+                if (item == null || empty) {
+                    setStyle("");
+                } else {
+                    // Apply new style based on Status
+                    switch (item.getStatus()) {
+                        case MAINTENANCE:
+                            getStyleClass().add("row-maintenance");
+                            break;
+                        case AVAILABLE:
+                            getStyleClass().add("row-available");
+                            break;
+                        case ON_TRIP:
+                            getStyleClass().add("row-ontrip");
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     private void setupDriverColumns() {
@@ -159,7 +190,39 @@ public class HomeController {
     }
 
     public void loadData() {
-        vehicleTable.setItems(FXCollections.observableArrayList(vehicleDAO.getAllVehicles()));
+        // 1. Get Master Data
+        ObservableList<Vehicle> masterData = FXCollections.observableArrayList(vehicleDAO.getAllVehicles());
+
+        // 2. Wrap in FilteredList (Initially shows all data)
+        FilteredList<Vehicle> filteredData = new FilteredList<>(masterData, p -> true);
+
+        // 3. Connect Search Bar to Filter
+        txtSearchVehicle.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(vehicle -> {
+                // If filter text is empty, display all cars
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare Brand, Model, Plate, ID with filter text
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (vehicle.getBrand().toLowerCase().contains(lowerCaseFilter)) return true;
+                if (vehicle.getModel().toLowerCase().contains(lowerCaseFilter)) return true;
+                if (vehicle.getLicensePlate().toLowerCase().contains(lowerCaseFilter)) return true;
+                if (String.valueOf(vehicle.getId()).contains(lowerCaseFilter)) return true;
+
+                return false; // Does not match
+            });
+        });
+
+        // 4. Wrap in SortedList (so clicking headers still sorts)
+        SortedList<Vehicle> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(vehicleTable.comparatorProperty());
+
+        // 5. Set to Table
+        vehicleTable.setItems(sortedData);
+
         driverTable.setItems(FXCollections.observableArrayList(driverDAO.getAllDrivers())); // Load Drivers
         tripTable.setItems(FXCollections.observableArrayList(tripDAO.getAllTrips()));
         maintenanceTable.setItems(FXCollections.observableArrayList(maintenanceDAO.getAllMaintenance()));

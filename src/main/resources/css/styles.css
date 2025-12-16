@@ -1,54 +1,73 @@
-/* General App Background */
+/* MODERN FLEET THEME */
 .root {
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-base: #ececec; /* Soft grey background */
 }
 
-/* The Blue Top Bar */
+/* TOP BAR */
 .top-bar {
     -fx-background-color: #2c3e50;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 2);
 }
 
-/* Buttons */
+/* BUTTONS - Flat & Modern */
 .button {
-    -fx-background-color: #ecf0f1;
+    -fx-background-color: #ffffff;
     -fx-text-fill: #2c3e50;
     -fx-font-weight: bold;
-    -fx-background-radius: 5px;
+    -fx-background-radius: 4px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 4px;
     -fx-cursor: hand;
+    -fx-padding: 8 15 8 15;
 }
 .button:hover {
-    -fx-background-color: #bdc3c7;
+    -fx-background-color: #ecf0f1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);
 }
 
-/* Specific Button Colors (Assign these via styleClass in SceneBuilder or FXML) */
-.btn-success { -fx-background-color: #27ae60; -fx-text-fill: white; }
-.btn-success:hover { -fx-background-color: #2ecc71; }
+/* Specific Action Buttons */
+.btn-action { -fx-background-color: #3498db; -fx-text-fill: white; -fx-border-color: transparent; }
+.btn-action:hover { -fx-background-color: #2980b9; }
 
-.btn-danger { -fx-background-color: #c0392b; -fx-text-fill: white; }
-.btn-danger:hover { -fx-background-color: #e74c3c; }
+.btn-danger { -fx-background-color: #e74c3c; -fx-text-fill: white; -fx-border-color: transparent; }
+.btn-danger:hover { -fx-background-color: #c0392b; }
 
-.btn-primary { -fx-background-color: #2980b9; -fx-text-fill: white; }
-.btn-primary:hover { -fx-background-color: #3498db; }
-
-/* Table Views */
+/* TABLE VIEW - The Spreadsheet Look */
 .table-view {
     -fx-background-color: white;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-table-cell-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 0);
 }
 .table-view .column-header-background {
     -fx-background-color: #ecf0f1;
-    -fx-border-color: transparent transparent #bdc3c7 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #bdc3c7;
 }
 .table-view .column-header .label {
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #7f8c8d;
     -fx-font-weight: bold;
 }
+.table-row-cell {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #f0f0f0;
+}
 
-/* Dashboard Cards */
-.dashboard-card {
-    -fx-background-color: white;
-    -fx-background-radius: 8px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);
-    -fx-padding: 20;
-    -fx-alignment: CENTER_LEFT;
+/* COLOR CODING ROWS (We will use these classes in Java) */
+.row-maintenance {
+    -fx-background-color: #ffcccc; /* Light Red */
+    -fx-text-fill: #c0392b;
+}
+.row-available {
+    -fx-background-color: #d5f5e3; /* Light Green */
+    -fx-text-fill: #27ae60;
+}
+.row-ontrip {
+    -fx-background-color: #fcf3cf; /* Light Yellow */
+    -fx-text-fill: #d35400;
+}
+/* Ensure selection is still visible */
+.table-row-cell:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
 }
