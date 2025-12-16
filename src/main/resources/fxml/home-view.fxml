@@ -53,15 +53,22 @@
                             <!-- Pie Chart -->
                             <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
                                 <Label text="Fleet Status" style="-fx-font-weight: bold; -fx-padding: 10;"/>
-                                <PieChart fx:id="statusChart"/>
+
+                                <!-- ADD legendVisible="false" HERE -->
+                                <PieChart fx:id="statusChart" legendVisible="false"/>
+
                             </VBox>
+
                             <!-- Bar Chart -->
                             <VBox style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
                                 <Label text="Cost Analysis" style="-fx-font-weight: bold; -fx-padding: 10;"/>
-                                <BarChart fx:id="costChart">
+
+                                <!-- ADD legendVisible="false" HERE -->
+                                <BarChart fx:id="costChart" legendVisible="false">
                                     <xAxis><CategoryAxis label="Category"/></xAxis>
                                     <yAxis><NumberAxis label="Cost ($)"/></yAxis>
                                 </BarChart>
+
                             </VBox>
                         </HBox>
 

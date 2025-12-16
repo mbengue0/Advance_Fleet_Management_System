@@ -97,11 +97,31 @@ public class HomeController {
         // Format Currency nicely ($1,200.50)
         lblFuelCost.setText(String.format("$%.2f", analyticsDAO.getTotalFuelCost()));
 
-        // 2. Pie Chart (Fleet Status)
+        /// 2. Pie Chart (Fleet Status)
         statusChart.getData().clear();
         Map<String, Integer> statusData = analyticsDAO.getVehicleStatusData();
         for (Map.Entry<String, Integer> entry : statusData.entrySet()) {
             statusChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        }
+
+        // --- NEW: COLOR MATCHING LOGIC ---
+        // We iterate through the chart slices AFTER adding them
+        for (PieChart.Data data : statusChart.getData()) {
+            String color = "#bdc3c7"; // Default Grey
+
+            switch (data.getName()) {
+                case "AVAILABLE":
+                    color = "#27ae60"; // Strong Green
+                    break;
+                case "MAINTENANCE":
+                    color = "#c0392b"; // Strong Red
+                    break;
+                case "ON_TRIP":
+                    color = "#f39c12"; // Strong Orange/Yellow
+                    break;
+            }
+            // Apply the color
+            data.getNode().setStyle("-fx-pie-color: " + color + ";");
         }
 
         // 3. Bar Chart (Cost by Category) <--- THIS IS WHAT YOU NEED
