@@ -267,16 +267,27 @@ public class HomeController {
     @FXML
     public void onLogoutClick() {
         try {
+            // 1. Clear Session
             UserSession.clear();
-            // 1. Load the Login View
+
+            // 2. Load the Login View
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/fxml/login-view.fxml"));
             javafx.scene.Parent root = loader.load();
 
-            // 2. Get the current Stage (Window) from any element (e.g., the table)
-            javafx.stage.Stage stage = (javafx.stage.Stage) vehicleTable.getScene().getWindow();
+            // 3. Create Scene
+            javafx.scene.Scene scene = new javafx.scene.Scene(root);
 
-            // 3. Switch the Scene
-            stage.setScene(new javafx.scene.Scene(root));
+            // --- FIX: RE-ATTACH CSS HERE ---
+            try {
+                scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            } catch (Exception e) {
+                System.out.println("Error loading CSS on logout: " + e.getMessage());
+            }
+            // -------------------------------
+
+            // 4. Switch the Stage
+            javafx.stage.Stage stage = (javafx.stage.Stage) vehicleTable.getScene().getWindow();
+            stage.setScene(scene);
             stage.setTitle("Fleet Management - Login");
             stage.centerOnScreen();
 

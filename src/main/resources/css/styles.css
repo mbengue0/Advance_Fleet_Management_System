@@ -76,3 +76,38 @@
 .table-row-cell:selected .text {
     -fx-fill: white;
 }
+
+/* --- LOGIN SCREEN STYLES --- */
+
+/* The Right Side Form Container */
+.login-right {
+    -fx-background-color: white;
+    -fx-padding: 40;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* The Left Side Branding Container */
+.login-left {
+    -fx-background-color: linear-gradient(to bottom right, #2c3e50, #3498db);
+    -fx-padding: 40;
+    -fx-alignment: CENTER;
+}
+
+/* Input Fields */
+.login-input {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+}
+.login-input:focused {
+    -fx-border-color: #3498db;
+    -fx-background-color: white;
+}
+
+/* Icons (SVG Shapes) */
+.icon-fill {
+    -fx-fill: #bdc3c7;
+}
