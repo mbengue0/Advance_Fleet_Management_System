@@ -41,16 +41,26 @@ public class LoginController {
     private void openDashboard() {
         try {
             // Load the Main Dashboard
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home-view.fxml"));
-            Scene scene = new Scene(loader.load(), 900, 600);
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/fxml/home-view.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            javafx.scene.Scene scene = new javafx.scene.Scene(root);
+
+            // --- ADD THIS LINE TO RELOAD CSS ---
+            try {
+                scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            } catch (Exception e) {
+                System.out.println("CSS not found: " + e.getMessage());
+            }
+            // -----------------------------------
 
             // Get current stage (window) and switch scene
-            Stage stage = (Stage) txtUser.getScene().getWindow();
+            javafx.stage.Stage stage = (javafx.stage.Stage) txtUser.getScene().getWindow();
             stage.setTitle("Advanced Fleet Management - Dashboard");
             stage.setScene(scene);
             stage.centerOnScreen();
 
-        } catch (IOException e) {
+        } catch (java.io.IOException e) {
             e.printStackTrace();
         }
     }

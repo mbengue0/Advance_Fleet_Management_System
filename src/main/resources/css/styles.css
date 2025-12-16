@@ -49,25 +49,30 @@
     -fx-font-weight: bold;
 }
 .table-row-cell {
+    -fx-background-color: transparent;
     -fx-border-width: 0 0 1 0;
-    -fx-border-color: #f0f0f0;
+    -fx-border-color: #e0e0e0;
+}
 }
 
 /* COLOR CODING ROWS (We will use these classes in Java) */
 .row-maintenance {
-    -fx-background-color: #ffcccc; /* Light Red */
+    -fx-background-color: #ffcccc; /* Red */
     -fx-text-fill: #c0392b;
 }
 .row-available {
-    -fx-background-color: #d5f5e3; /* Light Green */
-    -fx-text-fill: #27ae60;
+    -fx-background-color: #d4edda; /* Green */
+    -fx-text-fill: #155724;
 }
 .row-ontrip {
-    -fx-background-color: #fcf3cf; /* Light Yellow */
-    -fx-text-fill: #d35400;
+    -fx-background-color: #fff3cd; /* Yellow */
+    -fx-text-fill: #856404;
 }
 /* Ensure selection is still visible */
 .table-row-cell:selected {
-    -fx-background-color: #3498db;
+    -fx-background-color: #007bff;
     -fx-text-fill: white;
+}
+.table-row-cell:selected .text {
+    -fx-fill: white;
 }

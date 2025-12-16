@@ -124,6 +124,7 @@ public class HomeController {
     }
 
     private void setupVehicleColumns() {
+        // 1. Standard Column Setup
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPlate.setCellValueFactory(new PropertyValueFactory<>("licensePlate"));
         colBrand.setCellValueFactory(new PropertyValueFactory<>("brand"));
@@ -132,27 +133,28 @@ public class HomeController {
         colType.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getType()));
         colStatus.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getStatus().toString()));
 
+        // 2. THE ROW FACTORY (Color Logic)
         vehicleTable.setRowFactory(tv -> new javafx.scene.control.TableRow<Vehicle>() {
             @Override
             protected void updateItem(Vehicle item, boolean empty) {
                 super.updateItem(item, empty);
 
-                // Clear old styles
+                // Clear old styles (Important! Otherwise colors get mixed up when scrolling)
                 getStyleClass().removeAll("row-maintenance", "row-available", "row-ontrip");
 
                 if (item == null || empty) {
-                    setStyle("");
+                    // Do nothing for empty rows
                 } else {
-                    // Apply new style based on Status
+                    // Check Status and Apply CSS Class
                     switch (item.getStatus()) {
                         case MAINTENANCE:
                             getStyleClass().add("row-maintenance");
                             break;
-                        case AVAILABLE:
-                            getStyleClass().add("row-available");
-                            break;
                         case ON_TRIP:
                             getStyleClass().add("row-ontrip");
+                            break;
+                        case AVAILABLE:
+                            getStyleClass().add("row-available");
                             break;
                     }
                 }
