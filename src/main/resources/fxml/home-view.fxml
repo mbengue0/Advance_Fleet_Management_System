@@ -102,6 +102,8 @@
                         <Button text="Service (Maintenance)" onAction="#onServiceClick" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
                         <Button text="Finish Service" onAction="#onFinishServiceClick" style="-fx-background-color: #7f8c8d; -fx-text-fill: white;"/>
                         <Button text="Refresh" onAction="#onRefreshClick"/>
+                        <!-- NEW BUTTON -->
+                        <Button text="Export PDF" onAction="#onExportVehiclesClick" style="-fx-background-color: #8e44ad; -fx-text-fill: white;"/>
                     </HBox>
                 </VBox>
             </Tab>

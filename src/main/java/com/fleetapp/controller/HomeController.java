@@ -9,6 +9,7 @@ import com.fleetapp.model.Maintenance;
 import com.fleetapp.model.User;
 import com.fleetapp.util.UserSession;
 import com.fleetapp.dao.AnalyticsDAO;
+import com.fleetapp.util.PdfReportGenerator;
 import java.util.Map;
 
 
@@ -32,6 +33,8 @@ import javafx.scene.control.Label;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.collections.ObservableList;
+import javafx.stage.FileChooser;
+import java.io.File;
 
 public class HomeController {
 
@@ -141,6 +144,34 @@ public class HomeController {
 
         // Add the series to the chart
         costChart.getData().add(series);
+    }
+
+    @FXML
+    public void onExportVehiclesClick() {
+        try {
+            // 1. Ask user where to save
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Fleet Report");
+            fileChooser.setInitialFileName("Fleet_Report.pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+
+            // Get the Window from the table
+            File file = fileChooser.showSaveDialog(vehicleTable.getScene().getWindow());
+
+            if (file != null) {
+                // 2. Get Data
+                java.util.List<Vehicle> data = vehicleDAO.getAllVehicles();
+
+                // 3. Generate PDF
+                PdfReportGenerator.generateVehicleReport(data, file);
+
+                // 4. Success
+                com.fleetapp.util.AlertHelper.showInfo("Export Success", "Report saved to:\n" + file.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            com.fleetapp.util.AlertHelper.showError("Export Failed", e.getMessage());
+        }
     }
 
     private void setupVehicleColumns() {
