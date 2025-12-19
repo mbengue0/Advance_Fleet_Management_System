@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class DatabaseConnection {
 
@@ -17,14 +18,11 @@ public class DatabaseConnection {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // 3. The "Setup" Method (Run this once to create tables automatically)
     public static void initializeDatabase() {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // Table 1: Vehicles (Inheritance Strategy: Single Table)
-            // We store "CAR" or "TRUCK" in the 'type' column.
-            // 'cargo_capacity' is null for Cars. 'seat_count' is null for Trucks.
+            // 1. Vehicles
             String sqlVehicles = "CREATE TABLE IF NOT EXISTS vehicles (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "type VARCHAR(10) NOT NULL, " +
@@ -34,13 +32,13 @@ public class DatabaseConnection {
                     "year INT, " +
                     "mileage DOUBLE, " +
                     "status VARCHAR(20), " +
-                    "cargo_capacity DOUBLE, " + // For Trucks
-                    "seat_count INT, " +        // For Cars
-                    "fuel_type VARCHAR(20)" +   // For Cars
+                    "cargo_capacity DOUBLE, " +
+                    "seat_count INT, " +
+                    "fuel_type VARCHAR(20)" +
                     ")";
             stmt.execute(sqlVehicles);
 
-            // Table 2: Drivers
+            // 2. Drivers
             String sqlDrivers = "CREATE TABLE IF NOT EXISTS drivers (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "name VARCHAR(100), " +
@@ -51,7 +49,7 @@ public class DatabaseConnection {
                     ")";
             stmt.execute(sqlDrivers);
 
-            // Table 3: Trips
+            // 3. Trips
             String sqlTrips = "CREATE TABLE IF NOT EXISTS trips (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "vehicle_id INT, " +
@@ -66,7 +64,7 @@ public class DatabaseConnection {
                     ")";
             stmt.execute(sqlTrips);
 
-            // Table 4: Maintenance Logs
+            // 4. Maintenance
             String sqlMaintenance = "CREATE TABLE IF NOT EXISTS maintenance (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "vehicle_id INT, " +
@@ -74,23 +72,46 @@ public class DatabaseConnection {
                     "date DATE, " +
                     "cost DOUBLE, " +
                     "provider VARCHAR(100), " +
+                    "category VARCHAR(50), " +  // Added Category
                     "FOREIGN KEY (vehicle_id) REFERENCES vehicles(id)" +
                     ")";
             stmt.execute(sqlMaintenance);
 
-            // Table 5: App Users (Admins)
+            // 5. Users (Updated to include ROLE)
             String sqlUsers = "CREATE TABLE IF NOT EXISTS users (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
                     "username VARCHAR(50) UNIQUE NOT NULL, " +
-                    "password VARCHAR(50) NOT NULL" +
+                    "password VARCHAR(50) NOT NULL, " +
+                    "role VARCHAR(20) DEFAULT 'MANAGER'" + // Added Role
                     ")";
             stmt.execute(sqlUsers);
+
+            // --- SEED DATA: Create Default Admin if none exists ---
+            checkAndCreateDefaultAdmin(conn);
 
             System.out.println("Database initialized successfully!");
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("Database initialization failed. Check your username/password.");
+            System.err.println("Database initialization failed.");
+        }
+    }
+
+    // Helper method to create the default user
+    private static void checkAndCreateDefaultAdmin(Connection conn) throws SQLException {
+        String countSql = "SELECT COUNT(*) FROM users";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(countSql)) {
+
+            if (rs.next() && rs.getInt(1) == 0) {
+                // Table is empty, create the Super Admin
+                System.out.println("No users found. Creating default Super Admin...");
+
+                String insertSql = "INSERT INTO users (username, password, role) VALUES ('admin', '1234', 'SUPER_ADMIN')";
+                stmt.executeUpdate(insertSql);
+
+                System.out.println("Default user created: admin / 1234");
+            }
         }
     }
 }
